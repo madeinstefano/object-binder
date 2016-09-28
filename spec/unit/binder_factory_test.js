@@ -1,55 +1,69 @@
 require('rootpath')();
 
-var chai = require('chai');
-var should = require('chai').should();
-var BinderFactory = require('binder_factory');
-var expect = chai.expect;
-
-function getFreshModel() {
-  return { 
-    model: null, 
-    year: 0, 
-    engine: { 
-      displacement: 0,
-      cylinders: 0,
-      output: {
-        power: 0,
-        torque: 0
-      }
-    } 
-  };
-  
-}
+const chai = require('chai');
+const should = require('chai').should();
+const BinderFactory = require('binder_factory');
+const expect = chai.expect;
+const ModelFactory = require('spec/fixtures/model');
 
 describe('Binder test', () => {
 
   it('Should bind only registered props', function () {
     
+    var car = ModelFactory.car;
     var data = { model: 'BMW M3', year: 1988, flavor: 'vanilla' };
-    var model = getFreshModel();
     
     var binder = BinderFactory.build('model', 'year', 'doors');
     
-    binder.bind(model, data);
+    binder.bind(car, data);
     
-    model.model.should.eql('BMW M3');
-    model.year.should.eql(1988);
-    expect(model).to.not.have.property('flavor');
+    car.model.should.eql('BMW M3');
+    car.year.should.eql(1988);
+    expect(car).to.not.have.property('flavor');
     
   });
   
   it('Should deep bind properties', function () {
     
-    var model = getFreshModel();
+    var car = ModelFactory.car;
     var data = { model: 'BMW M3', year: 1988, engine: { cylinders: 4, displacement: 2303, output: { power: 197, torque: 177 } } };
     
     var binder = BinderFactory.build('model', 'year', 'engine.cylinders', 'engine.displacement', 'engine.output.power', 'engine.output.torque');
     
-    binder.bind(model, data);
+    binder.bind(car, data);
     
-    model.model.should.eql('BMW M3');
-    model.year.should.eql(1988);
-    model.engine.cylinders.should.eql(4);
-    model.engine.output.torque.should.eql(177);
+    car.model.should.eql('BMW M3');
+    car.year.should.eql(1988);
+    car.engine.cylinders.should.eql(4);
+    car.engine.output.torque.should.eql(177);
+  });
+  
+  it('Should not break when missing some properties on object to extends', function () {
+    
+    var car = ModelFactory.car;
+    var data = { };
+    
+    var binder = BinderFactory.build('model', 'year', 'engine.cylinders', 'engine.displacement', 'engine.output.power', 'engine.output.torque');
+    
+    binder.bind(car, data);
+    
+    expect(car.model).to.eql('');
+    expect(car.year).to.eql(0);
+    expect(car.engine.cylinders).to.eql(0);
+    expect(car.engine.output.torque).to.eql(0);
+  });
+  
+  it('Should not break when the object to extends is null', function () {
+    
+    var car = ModelFactory.car;
+    
+    var binder = BinderFactory.build('model', 'year', 'engine.cylinders', 'engine.displacement', 'engine.output.power', 'engine.output.torque');
+    
+    binder.bind(car);
+    
+    expect(car.model).to.eql('');
+    expect(car.year).to.eql(0);
+    expect(car.engine.cylinders).to.eql(0);
+    expect(car.engine.output.torque).to.eql(0);
   });
 });
