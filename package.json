@@ -1,6 +1,6 @@
 {
   "name": "object-binder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bind a pre set list of allowed props from one object to another",
   "main": "binder_factory.js",
   "dependencies": {},

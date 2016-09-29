@@ -66,4 +66,21 @@ describe('Binder test', () => {
     expect(car.engine.cylinders).to.eql(0);
     expect(car.engine.output.torque).to.eql(0);
   });
+  
+  it('Should bind all models properties with wildcard', function () {
+    
+    var car = ModelFactory.car;
+    var data = { model: 'BMW M3', year: 1988, color: 'red', engine: { cylinders: 4, displacement: 2303, output: { power: 197, torque: 177 } } };
+    
+    var binder = BinderFactory.build('*');
+    
+    binder.bind(car, data);
+    
+    car.model.should.eql('BMW M3');
+    car.year.should.eql(1988);
+    car.engine.cylinders.should.eql(4);
+    car.engine.output.torque.should.eql(177);
+    expect(car.color).to.eql(undefined);
+    
+  });
 });

@@ -42,3 +42,23 @@ binder.bind(model, params);
 //   }
 // }
 ```
+### Also, we can use a wilcard, to say that all properties from model object, should be populated with properties on data object:
+
+```js
+var binder = BinderFactory.build('*');
+
+var model = { model: 'BMW M3', year: 1988, engine: { cylinders: 4 } };
+
+var params = { model: 'BMW M5', year: 1989, engine: { cylinders: 6, output: { power: 315, torque: 360 }, displacement: 3535 } };
+
+binder.bind(model, params);
+
+// model will be:
+// {
+//   model: 'BMW M5',
+//   year: 1989,
+//   engine: {
+//     cylinders: 6
+//   }
+// }
+```
