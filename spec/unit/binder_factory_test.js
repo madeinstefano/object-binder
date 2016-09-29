@@ -7,7 +7,7 @@ const expect = chai.expect;
 const ModelFactory = require('spec/fixtures/model');
 
 describe('Binder test', () => {
-
+  
   it('Should bind only registered props', function () {
     
     var car = ModelFactory.car;
@@ -82,5 +82,19 @@ describe('Binder test', () => {
     car.engine.output.torque.should.eql(177);
     expect(car.color).to.eql(undefined);
     
+  });
+  
+  it('Should create all property tree', function () {
+    
+    var car = {};
+    var data = { model: 'BMW M3', year: 1988, engine: { cylinders: 4, displacement: 2303, output: { power: 197, torque: 177 } } };
+    var binder = BinderFactory.build('model', 'year', 'engine.cylinders', 'engine.displacement', 'engine.output.power', 'engine.output.torque');
+    
+    binder.bind(car, data);
+    
+    car.model.should.eql('BMW M3');
+    car.year.should.eql(1988);
+    car.engine.cylinders.should.eql(4);
+    car.engine.output.torque.should.eql(177);
   });
 });

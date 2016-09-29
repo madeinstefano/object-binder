@@ -30,7 +30,10 @@ function setDeepValue(obj, path, value) {
     return;
   }
   path.forEach( (key, i, a) => {
-    if (a.length > i + 1) {
+    if (a.length > i + 1) { // not last
+      if (ref[key] === undefined) {
+        Object.defineProperty(ref, key, { value: { }, enumerable: true });
+      }
       ref = ref[key];
     } else {
       ref[key] = value;
