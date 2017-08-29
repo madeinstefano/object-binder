@@ -1,12 +1,26 @@
 {
   "name": "object-binder",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Bind a pre set list of allowed props from one object to another",
-  "main": "binder_factory.js",
+  "main": "index.js",
   "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "nyc": "^10.1.2"
+  },
   "engines": {
-    "node": "6.3.1",
-    "npm": "3.10.6"
+    "node": "8.4.0",
+    "npm": "4.3.6"
+  },
+  "scripts": {
+    "lint": "eslint index.js --fix",
+    "test": "nyc ./node_modules/.bin/mocha --reporter spec --recursive ./spec/unit"
   },
   "repository": {
     "type": "git",
@@ -22,13 +36,5 @@
       "name": "Stéfano Zanata",
       "email": "contato@szanata.com"
     }
-  ],
-  "scripts": {
-    "test": "make test"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.0.2",
-    "rootpath": "0.1.2"
-  }
+  ]
 }
