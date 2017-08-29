@@ -112,6 +112,8 @@ module.exports = {
         pathsToBind.forEach( path => {
           setDeepValue( obj1, path.write, getDeepValue( obj2, path.read ) );
         } );
+
+        return obj1;
       }
     };
   }
