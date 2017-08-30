@@ -8,7 +8,7 @@ I created this mainly to bind `req.body` in to models on POST/PUT requests.
 ### 1. Install & configure
 
 ```bash
-$ npm install --save object_binder
+$ npm install --save object-binder
 ```
 
 ### 2. Create a Binder instance
